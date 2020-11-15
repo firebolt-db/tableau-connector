@@ -4,6 +4,7 @@
     <authentication-options>
       <option name="UsernameAndPassword" default="true" />
     </authentication-options>
+    <vendor1-prompt value="Engine: " />
     <db-name-prompt value="Database: " />
     <has-pre-connect-database value="true" />
     <show-ssl-checkbox value="true" />
