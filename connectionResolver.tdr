@@ -10,7 +10,7 @@
         <attribute-list>
           <attr>server</attr>
           <attr>port</attr>
-          <attr>vendor1</attr>
+          <attr>vendor1</attr><!--Engine name-->
           <attr>dbname</attr>
           <attr>username</attr>
           <attr>password</attr>
