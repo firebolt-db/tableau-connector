@@ -6,6 +6,7 @@
     </authentication-options>
     <vendor1-prompt value="Engine: " />
     <db-name-prompt value="Database: " />
+    <vendor2-prompt value="Params: " />
     <has-pre-connect-database value="true" />
     <show-ssl-checkbox value="true" />
   </connection-config>
