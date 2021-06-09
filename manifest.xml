@@ -26,7 +26,7 @@
       <customization name='CAP_JDBC_SUPPRESS_ENUMERATE_SCHEMAS' value='no' />
       <customization name='CAP_JDBC_SUPPRESS_ENUMERATE_TABLES' value='no' />
       <customization name='CAP_MULTIPLE_CONNECTIONS_FROM_SAME_IP' value='yes' />
-      <customization name='CAP_QUERY_BOOLEXPR_TO_INTEXPR' value='no' />
+      <customization name='CAP_QUERY_BOOLEXPR_TO_INTEXPR' value='yes' />
       <customization name='CAP_QUERY_FROM_REQUIRES_ALIAS' value='yes' />
       <customization name='CAP_QUERY_GROUP_ALLOW_DUPLICATES' value='yes' />
       <customization name='CAP_QUERY_GROUP_BY_ALIAS' value='yes' />
