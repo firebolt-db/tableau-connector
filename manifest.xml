@@ -40,7 +40,7 @@
       <customization name='CAP_QUERY_JOIN_REQUIRES_SCOPE' value='yes' />
       <customization name='CAP_QUERY_JOIN_REQUIRES_SUBQUERY' value='no' />
       <customization name='CAP_QUERY_NULL_REQUIRES_CAST' value='yes' />
-      <customization name='CAP_QUERY_SELECT_ALIASES_SORTED' value='no' />
+      <customization name='CAP_QUERY_SELECT_ALIASES_SORTED' value='yes' />
       <customization name='CAP_QUERY_SORT_BY_DEGREE' value='yes' />
       <customization name='CAP_QUERY_SUBQUERIES' value='yes' />
       <customization name='CAP_QUERY_SUBQUERIES_WITH_TOP' value='yes' />
@@ -60,6 +60,8 @@
       <customization name='CAP_STORED_PROCEDURE_TEMP_TABLE_FROM_NEW_PROTOCOL' value='no' />
       <customization name='CAP_SUPPRESS_DISCOVERY_QUERIES' value='no' />
       <customization name='CAP_SUPPRESS_DISPLAY_LIMITATIONS' value='no' />
+      <customization name='CAP_JDBC_EXPORT_BIND_BOOL_AS_INTEGER' value='yes' />
+      <customization name='CAP_QUERY_GROUP_BY_BOOL' value='no' />
     </customizations> 
   </connection-customization>
   <connection-dialog file='connection-dialog.tcd'/>
