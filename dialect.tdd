@@ -3,7 +3,7 @@
 <!-- See notes below for definitions that require 2020.3 or newer -->
 <dialect name='FireboltJDBC'
          class='firebolt_connector'
-         version='18.1'>
+         version='1'>
   <function-map>
     <function group='numeric' name='ABS' return-type='real'>
       <formula>ABS(%1)</formula>
@@ -973,7 +973,7 @@
     <date-function name='DATETRUNC' return-type='datetime'>
       <formula>DATE_TRUNC( &apos;%1&apos;, CAST(%2 AS TIMESTAMP) )</formula>
       <formula part='quarter'>CAST(DATE_TRUNC(&apos;QUARTER&apos;, CAST(%2 AS DATE)) AS DATE)</formula>
-      <formula part='week'>CAST((DATE_TRUNC( &apos;DAY&apos;, CAST(%2 AS DATE) ) + (-EXTRACT(DOW FROM %2) * INTERVAL &apos;1 DAY&apos;)) AS DATE)</formula>
+      <formula part='week'>CAST(DATE_TRUNC( &apos;WEEK&apos;, CAST(%2 AS DATE) ) AS DATE)</formula>
       <argument type='localstr' />
       <argument type='datetime' />
     </date-function>
@@ -1082,10 +1082,9 @@
         <part name='second' value='SECOND' />
       </date-part-group>
     </date-parts>
-    <format-bool-as-value value='TrueFirst' />
     <format-date-literal formula="(DATE '%1')"  format='yyyy-MM-dd' />
     <format-datetime-literal formula="(TIMESTAMP '%1')" format='yyyy-MM-dd HH:mm:ss.SSS' />
-    <format-false value='(1=0)'/>
+    <format-false value='(1=0)' />
     <format-is-distinct value='Keyword' />
     <format-order-by value='Nulls' />
     <format-select>
