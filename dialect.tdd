@@ -400,8 +400,8 @@
     </function>
     <function group='cast' name='INT' return-type='int'>
       <formula>(CASE
-	WHEN %1 THEN 1
-	WHEN NOT %1 THEN 0
+	WHEN %1 = 1 THEN 1
+	WHEN NOT %1 = 1 THEN 0
 	ELSE NULL END)</formula>
       <argument type='bool' />
     </function>
@@ -973,7 +973,7 @@
     <date-function name='DATETRUNC' return-type='datetime'>
       <formula>DATE_TRUNC( &apos;%1&apos;, CAST(%2 AS TIMESTAMP) )</formula>
       <formula part='quarter'>CAST(DATE_TRUNC(&apos;QUARTER&apos;, CAST(%2 AS DATE)) AS DATE)</formula>
-      <formula part='week'>CAST((DATE_TRUNC( &apos;DAY&apos;, CAST(%2 AS DATE) ) + (-EXTRACT(DOW FROM %2) * INTERVAL &apos;1 DAY&apos;)) AS DATE)</formula>
+      <formula part='week'>CAST(DATE_TRUNC( &apos;WEEK&apos;, CAST(%2 AS DATE) ) AS DATE)</formula>
       <argument type='localstr' />
       <argument type='datetime' />
     </date-function>
@@ -1082,9 +1082,10 @@
         <part name='second' value='SECOND' />
       </date-part-group>
     </date-parts>
+    <format-bool-as-value value='TrueFirst' />
     <format-date-literal formula="(DATE '%1')"  format='yyyy-MM-dd' />
     <format-datetime-literal formula="(TIMESTAMP '%1')" format='yyyy-MM-dd HH:mm:ss.SSS' />
-    <format-false literal='FALSE' predicate='FALSE' /> <!-- Requires 2020.3 or newer -->
+    <format-false value='(1=0)'/>
     <format-is-distinct value='Keyword' />
     <format-order-by value='Nulls' />
     <format-select>
@@ -1097,7 +1098,7 @@
       <part name='Top' value='LIMIT %1' />
     </format-select>
     <format-string-literal value='Extended' />  <!-- Postgres specific -->
-    <format-true literal='TRUE' predicate='TRUE' /> <!-- Requires 2020.3 or newer -->
+    <format-true value='(1=1)' />
     <icu-date-token-map>
       <!-- used by DATEPARSE -->
       <!-- http://userguide.icu-project.org/formatparse/datetime -->
