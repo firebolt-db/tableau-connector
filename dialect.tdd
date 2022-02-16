@@ -136,7 +136,7 @@
       <argument type='real' />
     </function>
     <function group='numeric' name='SIGN' return-type='int'>
-      <formula>CAST(SIGN(%1) AS SMALLINT)</formula>
+      <formula>CASE WHEN %1 &lt; 0 THEN -1 WHEN %1 = 0 THEN 0 WHEN %1 is NULL THEN NULL ELSE 1 END</formula>
       <argument type='real' />
     </function>
     <function group='numeric' name='SIN' return-type='real'>
@@ -297,6 +297,10 @@
       <formula>UPPER(CAST(%1 AS TEXT))</formula>
       <argument type='str' />
     </function>
+    <function group='string' name='ISDATE' return-type='bool'>
+      <formula>CASE WHEN TRY_CAST(%1 AS DATE) is NULL THEN false ELSE true END</formula>
+      <argument type='str' />
+    </function>
     <function group='date' name='DAY' return-type='int'>
       <formula>CAST(EXTRACT(DAY FROM %1) AS INTEGER)</formula>
       <argument type='datetime' />
@@ -305,7 +309,7 @@
       <formula>(CASE
 	WHEN %1 IS NULL OR %2 IS NULL THEN NULL
 	WHEN %1 &gt; %2 THEN %1
-	ELSE %2 END)</formula>
+	ELSE %2 END) :: TIMESTAMP</formula>
       <argument type='datetime' />
       <argument type='datetime' />
     </function>
@@ -313,7 +317,7 @@
       <formula>(CASE
 	WHEN %1 IS NULL OR %2 IS NULL THEN NULL
 	WHEN %1 &gt; %2 THEN %1
-	ELSE %2 END)</formula>
+	ELSE %2 END) :: TIMESTAMP</formula>
       <argument type='date' />
       <argument type='date' />
     </function>
@@ -321,7 +325,7 @@
       <formula><![CDATA[(CASE
 	WHEN %1 IS NULL OR %2 IS NULL THEN NULL
 	WHEN %1 < %2 THEN %1
-	ELSE %2 END)]]></formula>
+	ELSE %2 END) :: TIMESTAMP]]></formula>
       <argument type='datetime' />
       <argument type='datetime' />
     </function>
@@ -329,7 +333,7 @@
       <formula><![CDATA[(CASE
 	WHEN %1 IS NULL OR %2 IS NULL THEN NULL
 	WHEN %1 < %2 THEN %1
-	ELSE %2 END)]]></formula>
+	ELSE %2 END) :: TIMESTAMP]]></formula>
       <argument type='date' />
       <argument type='date' />
     </function>
@@ -360,11 +364,11 @@
       <argument type='real' />
     </function>
     <function group='cast' name='DATE' return-type='date'>
-      <formula>CAST(%1 AS DATE)</formula>
+      <formula>CAST(%1 AS TIMESTAMP)</formula>
       <argument type='str' />
     </function>
     <function group='cast' name='DATE' return-type='date'>
-      <formula>CAST(%1 AS DATE)</formula>
+      <formula>CAST(%1 AS TIMESTAMP)</formula>
       <argument type='datetime' />
     </function>
     <function group='cast' name='DATETIME' return-type='datetime'>
@@ -457,7 +461,7 @@
       <argument type='str' />
     </function>
     <function group='logical' name='IFNULL' return-type='datetime'>
-      <formula>COALESCE(%1, %2)</formula>
+      <formula>COALESCE(%1, %2) :: TIMESTAMP</formula>
       <argument type='datetime' />
       <argument type='datetime' />
     </function>
@@ -642,13 +646,13 @@
       <argument type='str' />
     </function>
     <function group='aggregate' name='MAX' return-type='datetime'>
-      <formula>MAX(%1)</formula>
-      <unagg-formula>%1</unagg-formula>
+      <formula>MAX(%1) :: TIMESTAMP</formula>
+      <unagg-formula>%1 :: TIMESTAMP</unagg-formula>
       <argument type='datetime' />
     </function>
     <function group='aggregate' name='MAX' return-type='date'>
-      <formula>MAX(%1)</formula>
-      <unagg-formula>%1</unagg-formula>
+      <formula>MAX(%1) :: TIMESTAMP</formula>
+      <unagg-formula>%1 :: TIMESTAMP</unagg-formula>
       <argument type='date' />
     </function>
     <function group='aggregate' name='MIN' return-type='bool'>
@@ -672,13 +676,13 @@
       <argument type='str' />
     </function>
     <function group='aggregate' name='MIN' return-type='datetime'>
-      <formula>MIN(%1)</formula>
-      <unagg-formula>%1</unagg-formula>
+      <formula>MIN(%1) :: TIMESTAMP</formula>
+      <unagg-formula>%1 :: TIMESTAMP</unagg-formula>
       <argument type='datetime' />
     </function>
     <function group='aggregate' name='MIN' return-type='date'>
-      <formula>MIN(%1)</formula>
-      <unagg-formula>%1</unagg-formula>
+      <formula>MIN(%1) :: TIMESTAMP</formula>
+      <unagg-formula>%1 :: TIMESTAMP</unagg-formula>
       <argument type='date' />
     </function>
     <function group='aggregate' name='STDEV' return-type='real'>
@@ -795,7 +799,7 @@
       <argument type='real' />
     </function>
     <function group='operator' name='-' return-type='real'>
-      <formula>(EXTRACT(EPOCH FROM (CAST(%1 AS TIMESTAMP) - %2)) / (60.0 * 60 * 24))</formula>
+      <formula>DATE_DIFF('SECOND',%2 :: TIMESTAMP, %1 :: TIMESTAMP) / (60.0 * 60 * 24)</formula>
       <argument type='datetime' />
       <argument type='datetime' />
     </function>
@@ -834,7 +838,7 @@
       <argument type='str' />
     </function>
     <function group='operator' name='&lt;' return-type='bool'>
-      <formula>(%1 &lt; %2)</formula>
+      <formula>(%1 :: TIMESTAMP &lt; %2 :: TIMESTAMP)</formula>
       <argument type='datetime' />
       <argument type='datetime' />
     </function>
@@ -849,7 +853,7 @@
       <argument type='str' />
     </function>
     <function group='operator' name='&lt;=' return-type='bool'>
-      <formula>(%1 &lt;= %2)</formula>
+      <formula>(%1 :: TIMESTAMP &lt;= %2 :: TIMESTAMP)</formula>
       <argument type='datetime' />
       <argument type='datetime' />
     </function>
@@ -869,7 +873,7 @@
       <argument type='str' />
     </function>
     <function group='operator' name='==' return-type='bool'>
-      <formula>(%1 = %2)</formula>
+      <formula>(%1 :: TIMESTAMP = %2 :: TIMESTAMP)</formula>
       <argument type='datetime' />
       <argument type='datetime' />
     </function>
@@ -884,7 +888,7 @@
       <argument type='str' />
     </function>
     <function group='operator' name='&gt;' return-type='bool'>
-      <formula>(%1 &gt; %2)</formula>
+      <formula>(%1 :: TIMESTAMP &gt; %2 :: TIMESTAMP)</formula>
       <argument type='datetime' />
       <argument type='datetime' />
     </function>
@@ -899,7 +903,7 @@
       <argument type='str' />
     </function>
     <function group='operator' name='&gt;=' return-type='bool'>
-      <formula>(%1 &gt;= %2)</formula>
+      <formula>(%1 :: TIMESTAMP &gt;= %2 :: TIMESTAMP)</formula>
       <argument type='datetime' />
       <argument type='datetime' />
     </function>
@@ -914,8 +918,8 @@
       <argument type='bool' />
     </function>
     <date-function name='DATEADD' return-type='datetime'>
-      <formula>(%3 + %2 * INTERVAL &apos;1 %1&apos;)</formula>
-      <formula part='quarter'>(%3 + %2 * 3 * INTERVAL &apos;1 MONTH&apos;)</formula>
+      <formula>(%3 + %2 * INTERVAL &apos;1 %1&apos;) :: TIMESTAMP</formula>
+      <formula part='quarter'>(%3 + %2 * 3 * INTERVAL &apos;1 MONTH&apos;) :: TIMESTAMP</formula>
       <argument type='localstr' />
       <argument type='int' />
       <argument type='datetime' />
@@ -959,26 +963,26 @@
     </date-function>
     <date-function name='DATEPART' return-type='int'>
       <formula>CAST(TRUNC(EXTRACT(%1 FROM %2)) AS INTEGER)</formula>
-      <formula part='weekday'>(1 + CAST(EXTRACT(DOW FROM %2) AS INTEGER))</formula>
-      <formula part='week'>CAST(FLOOR((7 + EXTRACT(DOY FROM %2) - 1 + EXTRACT(DOW FROM DATE_TRUNC(&apos;YEAR&apos;, %2))) / 7) AS INTEGER)</formula>
+      <formula part='weekday'>CASE WHEN TO_DAY_OF_WEEK(%2) = 7 THEN 1 ELSE TO_DAY_OF_WEEK(%2) + 1 END</formula>
+      <formula part='week'>FLOOR((7 + EXTRACT(DOY FROM %2) - 1 + TO_WEEK(DATE_TRUNC(&apos;YEAR&apos;, %2), 9)) / 7)</formula>
       <argument type='localstr' />
       <argument type='datetime' />
     </date-function>
     <date-function name='DATEPART' return-type='int'>
-      <formula part='week'>CAST(FLOOR((7 + EXTRACT(DOY FROM %2) - 1 + (CAST(7 + EXTRACT(DOW FROM DATE_TRUNC(&apos;YEAR&apos;, %2)) - %3 AS BIGINT) % 7)) / 7) AS INTEGER)</formula>
+      <formula part='week'>TO_WEEK(DATE_ADD('DAY',%3-1,%2), 9)</formula>
       <argument type='localstr' />
       <argument type='datetime' />
       <argument type='localstr' />
     </date-function>
     <date-function name='DATETRUNC' return-type='datetime'>
-      <formula>DATE_TRUNC( &apos;%1&apos;, CAST(%2 AS TIMESTAMP) )</formula>
-      <formula part='quarter'>CAST(DATE_TRUNC(&apos;QUARTER&apos;, CAST(%2 AS DATE)) AS DATE)</formula>
-      <formula part='week'>CAST(DATE_TRUNC( &apos;WEEK&apos;, CAST(%2 AS DATE) ) AS DATE)</formula>
+      <formula>DATE_TRUNC( &apos;%1&apos;, CAST(%2 AS TIMESTAMP) ) :: TIMESTAMP</formula>
+      <formula part='quarter'>CAST(DATE_TRUNC(&apos;QUARTER&apos;, CAST(%2 AS DATE)) AS DATE) :: TIMESTAMP</formula>
+      <formula part='week'>CAST(DATE_TRUNC( &apos;WEEK&apos;, CAST(%2 AS DATE) ) AS DATE) :: TIMESTAMP</formula>
       <argument type='localstr' />
       <argument type='datetime' />
     </date-function>
     <date-function name='DATETRUNC' return-type='datetime'>
-      <formula part='week'>(CAST(DATE_TRUNC( &apos;DAY&apos;, CAST(%2 AS TIMESTAMP)) AS DATE) - (((7 + CAST(EXTRACT(DOW FROM %2) AS BIGINT) - %3) % 7) * INTERVAL &apos;1 DAY&apos;))</formula>
+      <formula part='week'>(CAST(DATE_TRUNC( &apos;DAY&apos;, CAST(%2 AS TIMESTAMP)) AS DATE) - (((7 + CAST(EXTRACT(DOW FROM %2) AS BIGINT) - %3) % 7) * INTERVAL &apos;1 DAY&apos;)) :: TIMESTAMP</formula>
       <argument type='localstr' />
       <argument type='datetime' />
       <argument type='localstr' />
