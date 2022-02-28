@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8' ?>
 
-<connector-plugin class='firebolt_connector' superclass='jdbc' plugin-version='0.0.0' name='Connector' version='18.1' min-version-tableau='2020.3'>
+<connector-plugin class='firebolt_connector' superclass='jdbc' plugin-version='0.0.0' name='Firebolt Connector' version='18.1' min-version-tableau='2020.3'>
   <vendor-information>
       <company name="Firebolt"/>
       <support-link url="https://example.com"/>
