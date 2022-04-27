@@ -2,12 +2,7 @@
     var props = {};
     props["user"] = attr[connectionHelper.attributeUsername];
     props["password"] = attr[connectionHelper.attributePassword];
-    props["enginename"] = attr[connectionHelper.attributeVendor1];
-
-    if (attr[connectionHelper.attributeSSLMode] == "require") {
-        props["ssl"] = "true";
-        props["sslmode"] = "require";
-    }
+    props["engine"] = attr[connectionHelper.attributeVendor1];
 
     return props;
 })

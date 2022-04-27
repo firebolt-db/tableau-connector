@@ -70,15 +70,15 @@
       <argument type='real' />
     </function>
     <function group='numeric' name='LN' return-type='real'>
-      <formula>(CASE WHEN %1 &gt; 0 THEN LN(%1) ELSE NULL END)</formula>
+      <formula>(CASE WHEN %1 &gt; 0 THEN LN(%1) ELSE NULL :: DOUBLE END)</formula>
       <argument type='real' />
     </function>
     <function group='numeric' name='LOG' return-type='real'>
-      <formula>(CASE WHEN %1 &gt; 0 THEN LOG(%1) ELSE NULL END)</formula>
+      <formula>(CASE WHEN %1 &gt; 0 THEN LOG(%1) ELSE NULL :: DOUBLE END)</formula>
       <argument type='real' />
     </function>
     <function group='numeric' name='LOG' return-type='real'>
-      <formula><![CDATA[(CASE WHEN %1 > 0 AND %2 > 0 AND %2 <> 1 THEN LOG(CAST(%2 AS NUMERIC),CAST(%1 AS NUMERIC)) ELSE NULL END)]]></formula>
+      <formula><![CDATA[(CASE WHEN %1 > 0 AND %2 > 0 AND %2 <> 1 THEN LOG(CAST(%2 AS NUMERIC),CAST(%1 AS NUMERIC)) ELSE NULL :: DOUBLE END)]]></formula>
       <argument type='real' />
       <argument type='real' />
     </function>
@@ -144,7 +144,7 @@
       <argument type='real' />
     </function>
     <function group='numeric' name='SQRT' return-type='real'>
-      <formula><![CDATA[(CASE WHEN %1 < 0 THEN NULL ELSE SQRT(%1) END)]]></formula>
+      <formula>CASE WHEN %1 &lt; 0 THEN NULL :: DOUBLE ELSE SQRT(%1) END</formula>
       <argument type='real' />
     </function>
     <function group='numeric' name='SQUARE' return-type='real'>
@@ -272,7 +272,7 @@
       <argument type='str' />
     </function>
     <function group='string' name='RIGHT' return-type='str'>
-      <formula>(CASE WHEN %2 &gt;= 0 THEN SUBSTR(CAST(%1 AS TEXT), (LENGTH(CAST(%1 AS TEXT)) - CAST(FLOOR(%2) AS INTEGER) + 1) ) ELSE NULL END)</formula>
+      <formula>(CASE WHEN %2 &gt;= LENGTH(%1) THEN %1 WHEN %2 IS NULL THEN NULL WHEN %2 &gt; 0 THEN SUBSTR(CAST(%1 AS TEXT), (LENGTH(%1) - CAST(FLOOR(%2) AS INTEGER) + 1) ) ELSE NULL END)</formula>
       <argument type='str' />
       <argument type='real' />
     </function>
@@ -364,11 +364,11 @@
       <argument type='real' />
     </function>
     <function group='cast' name='DATE' return-type='date'>
-      <formula>CAST(%1 AS TIMESTAMP)</formula>
+      <formula>CAST(CAST(%1 AS TIMESTAMP) AS DATE)</formula>
       <argument type='str' />
     </function>
     <function group='cast' name='DATE' return-type='date'>
-      <formula>CAST(%1 AS TIMESTAMP)</formula>
+      <formula>CAST(%1 AS DATE)</formula>
       <argument type='datetime' />
     </function>
     <function group='cast' name='DATETIME' return-type='datetime'>
@@ -919,7 +919,7 @@
     </function>
     <date-function name='DATEADD' return-type='datetime'>
       <formula>(%3 + %2 * INTERVAL &apos;1 %1&apos;) :: TIMESTAMP</formula>
-      <formula part='quarter'>(%3 + %2 * 3 * INTERVAL &apos;1 MONTH&apos;) :: TIMESTAMP</formula>
+      <formula part='quarter'>DATE_ADD(&apos;quarter&apos;, %2, %3)</formula>
       <argument type='localstr' />
       <argument type='int' />
       <argument type='datetime' />
@@ -929,7 +929,7 @@
       <formula part='year'>CAST( EXTRACT(YEAR FROM CAST(%3 AS TIMESTAMP)) - EXTRACT(YEAR FROM CAST(%2 AS TIMESTAMP)) AS BIGINT)</formula>
       <formula part='quarter'>CAST( (4 * EXTRACT(YEAR FROM CAST(%3 AS TIMESTAMP)) + EXTRACT(QUARTER FROM CAST(%3 AS TIMESTAMP))) - (4 * EXTRACT(YEAR FROM CAST(%2 AS TIMESTAMP)) + EXTRACT(QUARTER FROM CAST(%2 AS TIMESTAMP))) AS BIGINT)</formula>
       <formula part='month'>CAST( (12 * EXTRACT(YEAR FROM CAST(%3 AS TIMESTAMP)) + EXTRACT(MONTH FROM CAST(%3 AS TIMESTAMP))) - (12 * EXTRACT(YEAR FROM CAST(%2 AS TIMESTAMP)) + EXTRACT(MONTH FROM CAST(%2 AS TIMESTAMP))) AS BIGINT)</formula>
-      <formula part='week'>CAST( FLOOR(( (FLOOR(EXTRACT(EPOCH FROM CAST(%3 AS TIMESTAMP)) / 86400) - EXTRACT(DOW FROM CAST(%3 AS TIMESTAMP)) ) - (FLOOR(EXTRACT(EPOCH FROM CAST(%2 AS TIMESTAMP)) / 86400)- EXTRACT(DOW FROM CAST(%2 AS TIMESTAMP)) ) ) / 7) AS BIGINT)</formula>
+      <formula part='week'>CAST( FLOOR(( (FLOOR(EXTRACT(EPOCH FROM CAST(%3 AS TIMESTAMP)) / 86400) - (DATE_FORMAT(%3, &apos;%w&apos; ) :: INT + 1) ) - (FLOOR(EXTRACT(EPOCH FROM CAST(%2 AS TIMESTAMP)) / 86400)- (DATE_FORMAT(%2, &apos;%w&apos; ) :: INT + 1) ) ) / 7) AS BIGINT)</formula>
       <formula part='hour'>CAST( FLOOR(EXTRACT(EPOCH FROM CAST(%3 AS TIMESTAMP)) / 3600) - FLOOR(EXTRACT(EPOCH FROM CAST(%2 AS TIMESTAMP)) / 3600) AS BIGINT)</formula>
       <formula part='minute'>CAST( FLOOR(EXTRACT(EPOCH FROM CAST(%3 AS TIMESTAMP)) / 60) - FLOOR(EXTRACT(EPOCH FROM CAST(%2 AS TIMESTAMP)) / 60) AS BIGINT)</formula>
       <formula part='second'>CAST( EXTRACT(EPOCH FROM CAST(%3 AS TIMESTAMP)) - EXTRACT(EPOCH FROM CAST(%2 AS TIMESTAMP)) AS BIGINT)</formula>
@@ -963,8 +963,8 @@
     </date-function>
     <date-function name='DATEPART' return-type='int'>
       <formula>CAST(TRUNC(EXTRACT(%1 FROM %2)) AS INTEGER)</formula>
-      <formula part='weekday'>CASE WHEN TO_DAY_OF_WEEK(%2) = 7 THEN 1 ELSE TO_DAY_OF_WEEK(%2) + 1 END</formula>
-      <formula part='week'>FLOOR((7 + EXTRACT(DOY FROM %2) - 1 + TO_WEEK(DATE_TRUNC(&apos;YEAR&apos;, %2), 9)) / 7)</formula>
+      <formula part='weekday'>DATE_FORMAT(%2, &apos;%w&apos; ) :: INT + 1</formula>
+      <formula part='week'>CAST(FLOOR((7 + EXTRACT(DOY FROM %2) - 1 + EXTRACT(DOW FROM DATE_TRUNC(&apos;YEAR&apos;, %2))) / 7) AS INTEGER)</formula>
       <argument type='localstr' />
       <argument type='datetime' />
     </date-function>
@@ -977,12 +977,12 @@
     <date-function name='DATETRUNC' return-type='datetime'>
       <formula>DATE_TRUNC( &apos;%1&apos;, CAST(%2 AS TIMESTAMP) ) :: TIMESTAMP</formula>
       <formula part='quarter'>CAST(DATE_TRUNC(&apos;QUARTER&apos;, CAST(%2 AS DATE)) AS DATE) :: TIMESTAMP</formula>
-      <formula part='week'>CAST(DATE_TRUNC( &apos;WEEK&apos;, CAST(%2 AS DATE) ) AS DATE) :: TIMESTAMP</formula>
+      <formula part='week'>(DATE_TRUNC( &apos;WEEK&apos;, CAST(%2 AS DATE) + INTERVAL &apos;1 DAY&apos; ) - INTERVAL &apos;1 DAY&apos;) :: TIMESTAMP</formula>
       <argument type='localstr' />
       <argument type='datetime' />
     </date-function>
     <date-function name='DATETRUNC' return-type='datetime'>
-      <formula part='week'>(CAST(DATE_TRUNC( &apos;DAY&apos;, CAST(%2 AS TIMESTAMP)) AS DATE) - (((7 + CAST(EXTRACT(DOW FROM %2) AS BIGINT) - %3) % 7) * INTERVAL &apos;1 DAY&apos;)) :: TIMESTAMP</formula>
+      <formula part='week'>(DATE_TRUNC( &apos;WEEK&apos;, CAST(%2 AS DATE) + MOD(8 - %3, 7) * INTERVAL &apos;1 DAY&apos; ) - MOD(8 - %3, 7) * INTERVAL &apos;1 DAY&apos;) :: TIMESTAMP</formula>
       <argument type='localstr' />
       <argument type='datetime' />
       <argument type='localstr' />

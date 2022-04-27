@@ -2,11 +2,10 @@
   <connection-config>
     <authentication-mode value='Basic' />
     <authentication-options>
-      <option name="UsernameAndPassword" default="true" />
+      <option name="UsernameAndPassword" default="true" value="auth-user-pass"/>
     </authentication-options>
     <vendor1-prompt value="Engine: " />
     <db-name-prompt value="Database: " />
     <has-pre-connect-database value="true" />
-    <show-ssl-checkbox value="true" />
   </connection-config>
 </connection-dialog>
