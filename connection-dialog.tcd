@@ -5,6 +5,7 @@
       <option name="UsernameAndPassword" default="true" value="auth-user-pass"/>
     </authentication-options>
     <vendor1-prompt value="Engine: " />
+    <vendor2-prompt value="Account: " default=""/>
     <db-name-prompt value="Database: " />
     <has-pre-connect-database value="true" />
   </connection-config>
