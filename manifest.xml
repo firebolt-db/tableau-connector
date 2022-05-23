@@ -23,7 +23,7 @@
       <customization name='CAP_QUERY_GROUP_BY_ALIAS' value='yes' />
       <customization name='CAP_QUERY_GROUP_BY_BOOL' value='no' />
       <customization name='CAP_QUERY_GROUP_BY_DEGREE' value='yes' />
-      <customization name='CAP_QUERY_HAVING_REQUIRES_GROUP_BY' value='no' />
+      <customization name='CAP_QUERY_HAVING_REQUIRES_GROUP_BY' value='yes' />
       <customization name='CAP_QUERY_HAVING_UNSUPPORTED' value='no' />
       <customization name='CAP_QUERY_INCLUDE_GROUP_BY_COLUMNS_IN_SELECT' value='no' />
       <customization name='CAP_QUERY_INITIAL_SQL_SPLIT_STATEMENTS' value='no' />
