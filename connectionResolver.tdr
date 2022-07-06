@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8' ?>
-<tdr class='firebolt_connector'>
+<tdr class='firebolt'>
 	<connection-resolver>
     <connection-builder>
       <script file='connectionBuilder.js'/>
