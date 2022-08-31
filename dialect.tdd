@@ -969,7 +969,7 @@
       <argument type='datetime' />
     </date-function>
     <date-function name='DATEPART' return-type='int'>
-      <formula part='week'>TO_WEEK(DATE_ADD('DAY',%3-1,%2), 9)</formula>
+      <formula part='week'>CAST(FLOOR((7 + EXTRACT(DOY FROM %2) - 1 + (CAST(7 + EXTRACT(DOW FROM DATE_TRUNC(&apos;YEAR&apos;, %2)) - %3 AS BIGINT) % 7)) / 7) AS INTEGER)</formula>
       <argument type='localstr' />
       <argument type='datetime' />
       <argument type='localstr' />
