@@ -1,4 +1,4 @@
-<connection-dialog class='firebolt'>
+<connection-dialog class='firebolt_connector'>
   <connection-config>
     <authentication-mode value='Basic' />
     <authentication-options>
