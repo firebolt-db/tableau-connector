@@ -4,7 +4,7 @@
   <vendor-information>
       <company name="Firebolt"/>
       <support-link url="https://www.firebolt.io/contact"/>
-      <driver-download-link url="https://firebolt-publishing-public.s3.amazonaws.com/repo/jdbc/firebolt-jdbc-latest.jar"/>
+      <driver-download-link url="https://github.com/firebolt-db/jdbc/releases"/>
   </vendor-information>
   <connection-customization class="firebolt_connector" enabled="true" version="10.0">
 	<vendor name='Firebolt' />
