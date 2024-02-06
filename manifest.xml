@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8' ?>
 
-<connector-plugin class='firebolt_connector' superclass='jdbc' plugin-version='1.0.1' name='Firebolt Connector' version='18.1' min-version-tableau='2020.3'>
+<connector-plugin class='firebolt_connector' superclass='jdbc' plugin-version='1.0.2-PG' name='Firebolt Connector' version='18.1' min-version-tableau='2020.3'>
   <vendor-information>
       <company name="Firebolt"/>
       <support-link url="https://www.firebolt.io/contact"/>
@@ -10,41 +10,25 @@
 	<vendor name='Firebolt' />
     <driver name='com.firebolt.FireboltDriver' />
    <customizations>
-      <customization name='CAP_CONNECT_STORED_PROCEDURE' value='no' />
-      <customization name='CAP_QUERY_TOP_0_METADATA' value='yes' />
-      <customization name='CAP_CREATE_TEMP_TABLES' value='no' />
-      <customization name='CAP_SELECT_INTO' value='no' />
-      <customization name='CAP_SELECT_TOP_INTO' value='no' />
-      <customization name='CAP_SUPPORTS_SPLIT_FROM_LEFT' value='yes' />
-      <customization name='CAP_SUPPORTS_SPLIT_FROM_RIGHT' value='yes' />
-      <customization name='CAP_SUPPORTS_INITIAL_SQL' value='yes' />
-      <customization name='CAP_QUERY_BOOLEXPR_TO_INTEXPR' value='yes' />
-      <customization name='CAP_QUERY_FROM_REQUIRES_ALIAS' value='yes' />
-      <customization name='CAP_QUERY_GROUP_BY_ALIAS' value='yes' />
-      <customization name='CAP_QUERY_GROUP_BY_BOOL' value='no' />
-      <customization name='CAP_QUERY_GROUP_BY_DEGREE' value='yes' />
-      <customization name='CAP_QUERY_HAVING_REQUIRES_GROUP_BY' value='yes' />
-      <customization name='CAP_QUERY_HAVING_UNSUPPORTED' value='no' />
-      <customization name='CAP_QUERY_INCLUDE_GROUP_BY_COLUMNS_IN_SELECT' value='no' />
-      <customization name='CAP_QUERY_INITIAL_SQL_SPLIT_STATEMENTS' value='no' />
-      <customization name='CAP_QUERY_JOIN_ACROSS_SCHEMAS' value='no' />
-      <customization name='CAP_QUERY_JOIN_PUSH_DOWN_CONDITION_EXPRESSIONS' value='yes' />
-      <customization name='CAP_QUERY_JOIN_REQUIRES_SCOPE' value='yes' />
-      <customization name='CAP_QUERY_JOIN_REQUIRES_SUBQUERY' value='yes' />
-      <customization name='CAP_QUERY_SELECT_ALIASES_SORTED' value='yes' />
-      <customization name='CAP_QUERY_SORT_BY_DEGREE' value='yes' />
-      <customization name='CAP_QUERY_SUBQUERIES' value='yes' />
-      <customization name='CAP_QUERY_SUBQUERIES_WITH_TOP' value='yes' />
-      <customization name='CAP_QUERY_TOP_N' value='yes' />
-      <customization name='CAP_JDBC_BIND_DETECT_ALIAS_CASE_FOLDING' value='yes' />
-      <customization name='CAP_JDBC_EXPORT_BIND_BOOL_AS_INTEGER' value='yes' />
-      <customization name='CAP_JDBC_METADATA_GET_INDEX_INFO' value='no' />
-      <customization name='CAP_JDBC_METADATA_READ_FOREIGNKEYS' value='no' />
-      <customization name='CAP_JDBC_METADATA_READ_PRIMARYKEYS' value='no' />
-      <customization name='CAP_JDBC_QUERY_ASYNC' value='yes' />
-      <customization name='CAP_JDBC_QUERY_CANCEL' value='yes' />
-      <customization name='CAP_MULTIPLE_CONNECTIONS_FROM_SAME_IP' value='yes' />
-    </customizations> 
+      <customization name="CAP_SELECT_INTO" value="yes"/>
+      <customization name="CAP_SELECT_TOP_INTO" value="yes"/>
+      <customization name="CAP_CREATE_TEMP_TABLES" value="no"/>
+      <customization name="CAP_QUERY_BOOLEXPR_TO_INTEXPR" value="no"/>
+      <customization name="CAP_QUERY_GROUP_BY_BOOL" value="yes"/>
+      <customization name="CAP_QUERY_GROUP_BY_DEGREE" value="yes"/>
+      <customization name="CAP_QUERY_SORT_BY" value="yes"/>
+      <customization name="CAP_QUERY_SUBQUERIES" value="yes"/>
+      <customization name="CAP_QUERY_TOP_N" value="yes"/>
+      <customization name="CAP_QUERY_TOP_SAMPLE" value="yes"/>
+      <customization name="CAP_QUERY_TOP_SAMPLE_PERCENT" value="yes"/>
+      <customization name="CAP_QUERY_WHERE_FALSE_METADATA" value="yes"/>
+      <customization name="CAP_QUERY_SUBQUERIES_WITH_TOP" value="yes"/>
+      <customization name="CAP_SUPPORTS_SPLIT_FROM_LEFT" value="yes"/>
+      <customization name="CAP_SUPPORTS_SPLIT_FROM_RIGHT" value="yes"/>
+      <customization name="CAP_SUPPORTS_UNION" value="yes"/>
+      <customization name="CAP_QUERY_ALLOW_PARTIAL_AGGREGATION" value="no"/>
+      <customization name="CAP_QUERY_TIME_REQUIRES_CAST" value="yes"/>
+    </customizations>
   </connection-customization>
   <connection-dialog file='connection-dialog.tcd'/>
   <connection-resolver file="connectionResolver.tdr"/>
