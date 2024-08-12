@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8' ?>
 
-<connector-plugin class='firebolt_connector' superclass='jdbc' plugin-version='1.0.2-PG' name='Firebolt Connector' version='18.1' min-version-tableau='2020.3'>
+<connector-plugin class='firebolt_connector' superclass='jdbc' plugin-version='1.1.0' name='Firebolt Connector' version='18.1' min-version-tableau='2020.3'>
   <vendor-information>
       <company name="Firebolt"/>
       <support-link url="https://www.firebolt.io/contact"/>
@@ -30,7 +30,8 @@
       <customization name="CAP_QUERY_TIME_REQUIRES_CAST" value="yes"/>
     </customizations>
   </connection-customization>
-  <connection-dialog file='connection-dialog.tcd'/>
+  <connection-fields file='connection-fields.xml'/>
+  <connection-metadata file='connection-metadata.xml'/>
   <connection-resolver file="connectionResolver.tdr"/>
   <dialect file='dialect.tdd'/>
 </connector-plugin>
