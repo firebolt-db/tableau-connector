@@ -5,6 +5,6 @@
   <field name="username" label="Client ID" category="authentication" value-type="string" />
   <field name="password" label="Client Secret" category="authentication" value-type="string" secure="true" />
   <field name="server" label="Host" category="endpoint" value-type="string" optional="true" default-value="api.app.firebolt.io" />
-  <field name="v-engine-name" label="Engine Name" category="general" value-type="string" optional="false" />
-  <field name="v-account-name" label="Account" category="general" value-type="string" optional="false" />
+  <field name="vendor1" label="Engine Name" category="general" value-type="string" optional="false" />
+  <field name="vendor2" label="Account" category="general" value-type="string" optional="false" />
 </connection-fields>

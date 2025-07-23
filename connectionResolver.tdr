@@ -9,8 +9,8 @@
         <setImpersonateAttributes/>
         <attribute-list>
           <attr>server</attr>
-          <attr>v-engine-name</attr>
-          <attr>v-account-name</attr>
+          <attr>vendor1</attr>
+          <attr>vendor2</attr>
           <attr>dbname</attr>
           <attr>authentication</attr>
           <attr>username</attr>
